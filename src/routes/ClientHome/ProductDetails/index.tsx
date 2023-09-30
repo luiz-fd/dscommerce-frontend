@@ -18,9 +18,10 @@ useEffect(() => {
   .then(response => {
     console.log(response);
     setProduct(response.data);
+  })
+  .catch(error => {
+    console.log(error.response.data);
   });
-
-
 
 },[]);
 
@@ -28,7 +29,10 @@ useEffect(() => {
   return (
     <main>
       <section id="product-details-section" className="dsc-container">
-        {product && <ProductDetailsCard product={product}></ProductDetailsCard>}
+        {product 
+        ? <ProductDetailsCard product={product}></ProductDetailsCard>
+        : <h2>Código inválido</h2>
+      }
         <div className="dsc-btn-page-container">
           <ButtonPrimary text="Comprar"></ButtonPrimary>
           <Link to="/"><ButtonInverse text="Inicio"></ButtonInverse></Link>
