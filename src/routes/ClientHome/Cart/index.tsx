@@ -8,6 +8,11 @@ export default function Cart() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cart, setCart] = useState<OrderDTO>(cartService.getCart());
 
+  function handleClearClick(){
+    cartService.clearCart();
+    setCart(cartService.getCart());
+  }
+
   return (
     <main>
       <section id="cart-container-section" className="dsc-container">
@@ -52,6 +57,9 @@ export default function Cart() {
           <Link to="/catalog">
             <div className="dsc-btn dsc-btn-white">Continuar comprando</div>
           </Link>
+            <div onClick={handleClearClick} className="dsc-btn dsc-btn-white">
+                Limpar carrinho
+                </div>
         </div>
       </section>
     </main>
