@@ -5,6 +5,7 @@ import Catalog from "./routes/ClientHome/Catalog";
 import Cart from "./routes/ClientHome/Cart";
 import { useState } from "react";
 import { ContextCartCount } from "./utils/context-cart";
+import Login from "./routes/ClientHome/Login";
 
 function App() {
   const [contextCartCount, setContextCartCount] = useState<number>(0);
@@ -21,6 +22,7 @@ function App() {
               element={<ProductDetails></ProductDetails>}
             ></Route>
             <Route path="cart" element={<Cart></Cart>}></Route>
+            <Route path="login" element={<Login></Login>}></Route>
           </Route>
           <Route path="*" element={<Navigate to="/"></Navigate>} />
         </Routes>
