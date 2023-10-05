@@ -31,7 +31,7 @@ function App() {
             <Route path="cart" element={<Cart></Cart>}></Route>
             <Route path="login" element={<Login></Login>}></Route>
           </Route>
-          <Route path="/admin/" element={<PrivateRoute><Admin /></PrivateRoute>}>
+          <Route path="/admin/" element={<PrivateRoute roles={['ROLE_ADMIN']}><Admin /></PrivateRoute>}>
             <Route index element={<AdminHome></AdminHome>}></Route>
           </Route>
           <Route path="*" element={<Navigate to="/"></Navigate>} />
