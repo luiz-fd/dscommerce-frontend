@@ -49,7 +49,7 @@ function App() {
               <Route path="login" element={<Login></Login>}></Route>
               <Route
                 path="confirmation/:orderId"
-                element={<Confirmation />}
+                element={<PrivateRoute><Confirmation /></PrivateRoute>}
               ></Route>
             </Route>
             <Route
