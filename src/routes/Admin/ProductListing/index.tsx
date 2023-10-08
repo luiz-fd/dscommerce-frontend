@@ -1,11 +1,11 @@
 import editIcon from '../../../images/edit (1).svg'
 import deleteIcon from '../../../images/delete.svg'
-import computerIcon from '../../../images/computer.png'
 import './styles.css'
 import { useEffect, useState } from 'react';
 import { ProductDTO } from '../../../models/product';
 import * as productService from "../../../services/product-service";
 import SearchBar from '../../../components/SearchBar';
+import ButtonNextPage from '../../../components/ButtonNextPage';
 
 type QueryParams = {
     page: number;
@@ -37,6 +37,10 @@ export default function ProductListing(){
         setQueryParams({ ...queryParams, page: 0, name: searchText });
       }
     
+  function handleNextPageClick() {
+    setQueryParams({ ...queryParams, page: queryParams.page + 1 });
+  }
+
     return(
         <main>
       <section id="product-listing-section" className="dsc-container">
@@ -76,7 +80,13 @@ export default function ProductListing(){
           </tbody>
         </table>
 
-        <div className="dsc-btn-next-page">Carregar mais</div>
+        <div className="dsc-btn-next-page">
+        {!isLastPage && (
+          <div onClick={handleNextPageClick}>
+            <ButtonNextPage />
+          </div>
+        )}
+        </div>
       </section>
     </main>
     )
