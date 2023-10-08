@@ -16,6 +16,8 @@ import { ContextToken } from "./utils/context-token";
 import * as authService from "./services/auth-service";
 import * as cartService from "./services/cart-service";
 import Confirmation from "./routes/ClientHome/Confirmation";
+import ProductListing from "./routes/Admin/ProductListing";
+import ProductForm from "./routes/Admin/ProductForm";
 
 function App() {
   const [contextCartCount, setContextCartCount] = useState<number>(0);
@@ -41,26 +43,19 @@ function App() {
             <Route path="/" element={<ClientHome></ClientHome>}>
               <Route index element={<Catalog></Catalog>}></Route>
               <Route path="catalog" element={<Catalog></Catalog>}></Route>
-              <Route
-                path="product-details/:productId"
-                element={<ProductDetails></ProductDetails>}
-              ></Route>
+              <Route path="product-details/:productId" element={<ProductDetails></ProductDetails>}></Route>
               <Route path="cart" element={<Cart></Cart>}></Route>
               <Route path="login" element={<Login></Login>}></Route>
-              <Route
-                path="confirmation/:orderId"
-                element={<PrivateRoute><Confirmation /></PrivateRoute>}
-              ></Route>
+              <Route path="confirmation/:orderId" element={<PrivateRoute><Confirmation /></PrivateRoute>}></Route>
             </Route>
-            <Route
-              path="/admin/"
-              element={
-                <PrivateRoute roles={["ROLE_ADMIN"]}>
-                  <Admin />
-                </PrivateRoute>
-              }
-            >
-              <Route index element={<AdminHome></AdminHome>}></Route>
+            <Route path="/admin/" element={ 
+              <PrivateRoute roles={["ROLE_ADMIN"]}> 
+                  <Admin /> 
+              </PrivateRoute> } >
+                  <Route index element={ <Navigate to="/admin/home"></Navigate> }></Route>
+                  <Route path="home" element={<AdminHome/>}></Route>
+                  <Route path="products" element={<ProductListing/>}></Route>
+                  <Route path="products/:productId" element={<ProductForm/>}></Route>
             </Route>
             <Route path="*" element={<Navigate to="/"></Navigate>} />
           </Routes>
