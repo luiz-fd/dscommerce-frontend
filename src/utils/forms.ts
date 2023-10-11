@@ -4,7 +4,7 @@ export function update(inputs: any, name: string, newValue: any){
 
 export function toValues(inputs: any){
     const data : any = {};
-    for (var name in inputs){
+    for (let name in inputs){
         data[name] = inputs[name].value;
     }
     return data;
