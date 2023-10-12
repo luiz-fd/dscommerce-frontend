@@ -1,13 +1,13 @@
-import { Link, useParams } from "react-router-dom";
 import "./styles.css";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { CategoryDTO } from "../../../models/category";
 import FormInput from "../../../components/FormInput";
+import FormTextArea from "../../../components/FormTextArea";
+import FormSelect from "../../../components/FormSelect";
 import * as forms from "../../../utils/forms";
 import * as productService from '../../../services/product-service';
 import * as categoriesService from '../../../services/category-service';
-import FormTextArea from "../../../components/FormTextArea";
-import Select from "react-select";
-import { CategoryDTO } from "../../../models/category";
 
 export default function ProductForm() {
   const params = useParams();
@@ -57,6 +57,16 @@ export default function ProductForm() {
       },
       message: "Favor informar uma descrição de no mínimo 10 caracteres"
     },
+    categories: {
+      value: [],
+      id: "categories",
+      name: "categories",
+      placeholder: "Categorias",
+      validation: function(value: CategoryDTO[]){
+        return value.length > 0;
+      },
+      message: "Escolha ao menos uma categoria"
+    }
   });
 
   useEffect(() => {
@@ -122,13 +132,21 @@ export default function ProductForm() {
                 <div className="dsc-form-error">{formData.imgUrl.message}</div>
               </div>
               <div>
-                  <Select 
+                  <FormSelect 
+                      { ...formData.categories}
+                      className="dsc-form-control"
                       options={categories} 
+                      onChange={((obj:any) => {
+                        const newFormData = forms.updateAndValidate(formData,"categories",obj);
+                        setFormData(newFormData);
+                      })}
+                      onTurnDirty={handleTurnDirty}
                       isMulti
-                      getOptionLabel={(obj) => obj.name}
-                      getOptionValue={(obj) => String(obj.id)}
+                      getOptionLabel={(obj:any) => obj.name}
+                      getOptionValue={(obj:any) => String(obj.id)}
                   />
               </div>
+               <div className="dsc-form-error">{formData.categories.message} AAA</div>
               <div>
                 <FormTextArea
                   {...formData.description}
