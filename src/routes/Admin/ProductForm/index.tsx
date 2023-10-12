@@ -4,12 +4,17 @@ import { useEffect, useState } from "react";
 import FormInput from "../../../components/FormInput";
 import * as forms from "../../../utils/forms";
 import * as productService from '../../../services/product-service';
+import * as categoriesService from '../../../services/category-service';
 import FormTextArea from "../../../components/FormTextArea";
+import Select from "react-select";
+import { CategoryDTO } from "../../../models/category";
 
 export default function ProductForm() {
   const params = useParams();
 
   const isEditing = params.productId !== "create";
+
+  const [categories,setCategories] = useState<CategoryDTO[]>([]);
 
   const [formData, setFormData] = useState<any>({
     name: {
@@ -52,6 +57,13 @@ export default function ProductForm() {
       },
       message: "Favor informar uma descrição de no mínimo 10 caracteres"
     },
+  });
+
+  useEffect(() => {
+    categoriesService.findAllRequest()
+    .then(response => {
+      setCategories(response.data);
+    })
   });
 
   useEffect(() => {
@@ -108,6 +120,14 @@ export default function ProductForm() {
                   onChange={handleInputChange}
                 />
                 <div className="dsc-form-error">{formData.imgUrl.message}</div>
+              </div>
+              <div>
+                  <Select 
+                      options={categories} 
+                      isMulti
+                      getOptionLabel={(obj) => obj.name}
+                      getOptionValue={(obj) => String(obj.id)}
+                  />
               </div>
               <div>
                 <FormTextArea
