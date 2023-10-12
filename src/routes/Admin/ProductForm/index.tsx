@@ -1,19 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./styles.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormInput from "../../../components/FormInput";
-import * as forms from "../../../utils/forms"
+import * as forms from "../../../utils/forms";
+import * as productService from '../../../services/product-service';
 
 export default function ProductForm() {
+  const params = useParams();
 
-    
+  const isEditing = params.productId !== "create";
+
   const [formData, setFormData] = useState<any>({
     name: {
       value: "",
       id: "name",
       name: "name",
       type: "text",
-      placeholder: "Nome"
+      placeholder: "Nome",
     },
     price: {
       value: "",
@@ -31,6 +34,15 @@ export default function ProductForm() {
     },
   });
 
+  useEffect(() => {
+    if(isEditing){
+        productService.findById(Number(params.productId))
+            .then(response => {
+                setFormData(forms.updateAll(formData, response.data));
+            });
+    }
+  }, []);
+
   function handleInputChange(event: any) {
     setFormData(forms.update(formData, event.target.name, event.target.value));
   }
@@ -43,22 +55,22 @@ export default function ProductForm() {
             <h2>Dados do produto</h2>
             <div className="dsc-form-controls-container">
               <div>
-              <FormInput
-                  { ...formData.name}
+                <FormInput
+                  {...formData.name}
                   className="dsc-form-control"
                   onChange={handleInputChange}
                 />
               </div>
               <div>
-              <FormInput
-                  { ...formData.price}
+                <FormInput
+                  {...formData.price}
                   className="dsc-form-control"
                   onChange={handleInputChange}
                 />
               </div>
               <div>
-              <FormInput
-                  { ...formData.imgUrl}
+                <FormInput
+                  {...formData.imgUrl}
                   className="dsc-form-control"
                   onChange={handleInputChange}
                 />
