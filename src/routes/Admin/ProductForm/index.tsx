@@ -100,7 +100,12 @@ export default function ProductForm() {
 
   function handleSubmit(event:any){
       event.preventDefault();
-      console.log(forms.toValues(formData))
+      const formDataValidated = forms.dirtyAndValidadeAll(formData);
+      if(forms.hasAnyInvalid(formDataValidated)){
+        setFormData(formDataValidated);
+        return;
+      }
+      //console.log(forms.toValues(formData))
   }
 
   return (
