@@ -72,7 +72,7 @@ export function dirtyAndValidadeAll(inputs:any){
 }
 
 export function hasAnyInvalid(inputs:any){
-    for (var name in inputs){
+    for (const name in inputs){
         if(inputs[name].dirty === "true" && inputs[name].invalid === "true"){
             return true;
         }
